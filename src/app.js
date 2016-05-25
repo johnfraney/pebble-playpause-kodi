@@ -8,6 +8,12 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 var ajax = require('ajax');
 
+// Config
+var Settings = require('settings');
+var Clay = require('./clay');
+var clayConfig = require('./config');
+var clay = new Clay(clayConfig, null, {autoHandleEvents: false});
+
 var main = new UI.Card({
   title: 'PlayPause',
   icon: 'images/menu_icon.png',
@@ -108,8 +114,16 @@ main.on('longClick', 'down', function(e) {
 );
 });
 
-Pebble.addEventListener('showConfiguration', function() {
-  var url = 'http://example.com/config.html';
+Pebble.addEventListener('showConfiguration', function(e) {
+  Pebble.openURL(clay.generateUrl());
+});
 
-  Pebble.openURL(url);
+Pebble.addEventListener('webviewclosed', function(e) {
+  if (e && !e.response) {
+    return;
+  }
+  var dict = clay.getSettings(e.response);
+
+  // Save the Clay settings to the Settings module. 
+  Settings.option(dict);
 });
