@@ -13,7 +13,16 @@ var Clay = require('./clay');
 var clayConfig = require('./config');
 var clay = new Clay(clayConfig, null, {autoHandleEvents: false});
 
-var kodi_url = 'http://' + Settings.option('kodi_url') + '/jsonrpc';
+var kodiURL = 'http://' + Settings.option('kodiURL') + '/jsonrpc';
+
+var topShortAction = Settings.option('topShortAction');
+var topLongAction = Settings.option('topLongAction');
+
+var middleShortAction = Settings.option('middleShortAction');
+var middleLongAction = Settings.option('middleLongAction');
+
+var bottomShortAction = Settings.option('bottomShortAction');
+var bottomLongAction = Settings.option('bottomLongAction');
 
 
 // UI
@@ -44,11 +53,13 @@ function send_kodi_post(command) {
   if (command == 'Player.PlayPause') {
     post_data.params = { "playerid": 0 };
   }
-    
+  
+  console.log("POSTing: " + JSON.stringify(post_data));
+  
   // Make AJAX POST to kodi_url
   ajax(
     {
-      url: kodi_url,
+      url: kodiURL,
       method: 'post',
       type: 'json',
       data: post_data
@@ -64,25 +75,28 @@ function send_kodi_post(command) {
 
 // Up button clicks
 main.on('click', 'up', function(e) {
-  send_kodi_post("Input.Up");
+  send_kodi_post(topShortAction);
+});
+main.on('longClick', 'up', function(e) {
+  send_kodi_post(topLongAction);
 });
 
 // Select button clicks
 main.on('click', 'select', function(e) {
-  send_kodi_post("Input.Select");
+  send_kodi_post(middleShortAction);
 });
 
 main.on('longClick', 'select', function(e) {
-  send_kodi_post("Player.PlayPause");
+  send_kodi_post(middleLongAction);
 });
 
 // Down button clicks
 main.on('click', 'down', function(e) {
-  send_kodi_post("Input.Down");
+  send_kodi_post(bottomShortAction);
 });
 
 main.on('longClick', 'down', function(e) {
-  send_kodi_post("Input.Back");
+  send_kodi_post(bottomLongAction);
 });
 
 
