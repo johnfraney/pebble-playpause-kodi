@@ -14,6 +14,9 @@ var Clay = require('./clay');
 var clayConfig = require('./config');
 var clay = new Clay(clayConfig, null, {autoHandleEvents: false});
 
+var kodi_url = 'http://' + Settings.option('kodi_url') + '/jsonrpc';
+console.log(kodi_url);
+
 var main = new UI.Card({
   title: 'PlayPause',
   icon: 'images/menu_icon.png',
@@ -26,8 +29,6 @@ var main = new UI.Card({
 });
 
 main.show();
-
-var kodi_url = 'http://192.168.2.16:8080/jsonrpc';
 
 main.on('click', 'up', function(e) {
   ajax(

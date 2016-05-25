@@ -1,4 +1,4 @@
-[
+module.exports = [
   {
     "type": "heading",
     "id": "main-heading",
@@ -15,8 +15,17 @@
       {
         "type": "input",
         "appKey": "kodi_url",
-        "label": "Kodi URL (including port)"
+        "label": "Kodi Address (including port, e.g. 192.168.1.10:8080)"
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "items": [
+      {
+        "type": "submit",
+        "defaultValue": "Save"
       }
     ]
   }
-]
+];
